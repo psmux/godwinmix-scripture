@@ -77,13 +77,17 @@ export class OnAir {
 
   // Put one slide's layers on the programme. blank keeps them hidden.
   async show(layers, { blank = false } = {}) {
-    const scene = await this.programmeScene();
+    // The page's status document says which scene is on air; ask the mixer
+    // only when that disagrees with what we placed into last time.
+    const known = this.client.state && this.client.state.scene;
+    const scene = this.scene && known === this.scene ? this.scene : await this.programmeScene();
     if (scene !== this.scene) {
       this.scene = scene;
       this.placed.set(scene, await this.placedIn(scene));
     }
     const placed = this.placed.get(scene);
-    for (const layer of layers) await this.ensureSource(layer);
+    // Both words change in the same instant: the two sets go out together.
+    await Promise.all(layers.map((layer) => this.ensureSource(layer)));
     for (const layer of layers) {
       const visible = layer.visible && !blank;
       const box = `${layer.rect.x},${layer.rect.y},${layer.rect.w},${layer.rect.h}`;

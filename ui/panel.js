@@ -37,7 +37,12 @@ class ScripturePanel extends HTMLElement {
     this.air = new OnAir(this.client);
     this.build();
     this.resize = new ResizeObserver(() => {
-      this.root.classList.toggle("wide", this.root.clientWidth >= 720);
+      const wide = this.root.clientWidth >= 720;
+      this.root.classList.toggle("wide", wide);
+      // Wide, the style and its preview sit under the search, where there is
+      // room; narrow, everything is one column and they come last.
+      const home = wide ? this.el.left : this.el.right;
+      if (this.el.lookbox.parentNode !== home) home.appendChild(this.el.lookbox);
       this.drawPreview();
     });
     this.resize.observe(this.root);
@@ -119,6 +124,7 @@ class ScripturePanel extends HTMLElement {
       </div>
       <div class="scr-keys"><kbd>Enter</kbd> go live <kbd>Space</kbd> <kbd>Right</kbd> next <kbd>Left</kbd> previous
         <kbd>B</kbd> blank <kbd>Esc</kbd> clear</div>
+      <div data-el="lookbox" class="scr-col" style="padding:0">
       <div class="scr-row"><span class="sm dim">Style</span><select class="grow" data-el="style"></select>
         <button class="btn sm" data-act="look" title="Font, size, colours, box and margins">Adjust</button></div>
       <div class="scr-look" data-el="look" hidden>
@@ -134,6 +140,7 @@ class ScripturePanel extends HTMLElement {
         <span></span><span></span><button class="btn sm" data-act="look-reset">Reset</button><button class="btn sm primary" data-act="look-apply">Apply</button>
       </div>
       <div class="scr-preview" data-el="preview"></div>
+      </div>
     </div>
   </div>
   <div class="scr-msg" data-el="msg"></div>

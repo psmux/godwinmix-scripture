@@ -23,7 +23,7 @@ STYLES = {
         "title": "Lower third",
         "description": "A dark band across the bottom with the reference on a gold tab. Sits over a camera.",
         "for": ["bible", "song"],
-        "body": {"rect": [96, 770, 1728, 240], "font": SANS, "size": 42, "weight": 500,
+        "body": {"rect": [96, 770, 1728, 240], "font": SANS, "size": 46, "weight": 500,
                  "color": "#ffffff", "background": "#0e1726e8", "padding": 30, "radius": 10,
                  "align": "left", "valign": "middle", "shadow": False, "outline": ""},
         "ref": {"rect": [96, 708, 0, 56], "font": SANS, "size": 30, "weight": 700,
@@ -84,7 +84,7 @@ COLOUR = re.compile(r"^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$")
 # How wide an average letter is, and how tall a line is, as a share of the
 # letter size. Measured against the mixer's text source with Segoe UI, Georgia
 # and DejaVu Sans; a little generous so a slide never runs out of its box.
-CHAR_WIDTH = 0.53
+CHAR_WIDTH = 0.50
 LINE_HEIGHT = 1.30
 
 OVERRIDES = {

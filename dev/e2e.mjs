@@ -70,19 +70,44 @@ function ok(name, pass, detail = "") {
   steps.push({ name, pass, detail });
   console.log(`${pass ? "ok  " : "FAIL"} ${name}${detail ? "  (" + detail + ")" : ""}`);
 }
-// Note the moment for the recording, and keep what the mixer says is on air
-// now as a still: program.thumbnail is the programme itself, not a monitor.
-async function mark(name, expect) {
-  const at = (Date.now() - recStart) / 1000;
-  const thumb = await rest("GET", "/api/v1/program/thumbnail?width=320");
-  let still = null;
-  if (thumb && thumb.jpeg) {
-    still = `thumb-${name}.jpg`;
-    writeFileSync(resolve(OUT, still), Buffer.from(thumb.jpeg, "base64"));
+// Wait until the programme has settled (two programme thumbnails in a row
+// the same, a second apart), keep the last one, and note the moment. Under
+// load the mixer can take seconds to draw new words, so a fixed sleep would
+// photograph the slide before. program.thumbnail is what is on air, not a
+// monitor of it.
+async function settled(limit = 30000) {
+  const end = Date.now() + limit;
+  let last = null;
+  let same = 0;
+  for (;;) {
+    const t = await rest("GET", "/api/v1/program/thumbnail?width=320");
+    const jpeg = t && t.jpeg;
+    if (jpeg && jpeg === last) same++;
+    else same = 0;
+    last = jpeg || last;
+    if (same >= 2 || Date.now() > end) return last;
+    await sleep(1000);
   }
-  timeline.marks.push({ name, at, expect, still });
 }
 
+async function mark(name, expect) {
+  const still = await settled();
+  const at = (Date.now() - recStart) / 1000;
+  const file = `thumb-${String(timeline.marks.length).padStart(2, "0")}-${name}.jpg`;
+  if (still) writeFileSync(resolve(OUT, file), Buffer.from(still, "base64"));
+  timeline.marks.push({ name, at, expect, still: still ? file : null });
+}
+
+const STILL = arg("still", "");
+if (STILL) {
+  // A still standing in for a camera, taken as a bare source, so Go live has
+  // to wrap it in a scene of its own: the path a real show takes most often.
+  await rest("DELETE", "/api/v1/sources/stage-cam");
+  await rest("POST", "/api/v1/sources", { id: "stage-cam", name: "Stage camera", uri: STILL });
+  await sleep(3000);
+  await rest("POST", "/api/v1/program/take", { source: "stage-cam" });
+  await sleep(2000);
+}
 const recDir = resolve(OUT, "recording");
 mkdirSync(recDir, { recursive: true });
 await rest("DELETE", "/api/v1/outputs/scripture-check");
@@ -135,7 +160,7 @@ try {
   await b.until(`${P}.querySelector('.scr-slide.live') && ${P}.querySelector('.scr-slide.live').dataset.i !== '0'`, 10000).catch(() => {});
   await sleep(2000);
   st = await tool("state");
-  ok("Right arrow steps the verse on", st.index === 1, `slide ${st.index + 1} of ${st.deck.count}`);
+  ok("Right arrow steps the verse on", st.index === 1, `slide ${st.index + 1} of ${st.deck.slides.length}`);
   await mark("john-3-16-part-2", st.current.text.slice(0, 20));
 
   // A full screen style for a psalm.

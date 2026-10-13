@@ -197,7 +197,7 @@ class Styles(unittest.TestCase):
 
     def test_overrides(self):
         style = styles.resolve("lower-third", {"scale": 1.5, "color": "#ffcc00", "box": "", "align": "center"})
-        self.assertEqual(style["body"]["size"], 63)
+        self.assertEqual(style["body"]["size"], round(styles.STYLES["lower-third"]["body"]["size"] * 1.5))
         self.assertEqual(style["body"]["color"], "#ffcc00")
         self.assertEqual(style["body"]["background"], "")
         self.assertTrue(style["body"]["shadow"])
