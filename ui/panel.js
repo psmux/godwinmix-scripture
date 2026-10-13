@@ -314,6 +314,7 @@ class ScripturePanel extends HTMLElement {
     this.render();
     if (moved || r.blank) await this.air.show(r.layers, { blank: r.blank });
     if (!moved) this.say(by > 0 ? "That is the last slide." : "That is the first slide.");
+    else this.say(`On air: ${r.current.ref || r.current.label}`);
   }
 
   async blank() {
@@ -459,14 +460,26 @@ class ScripturePanel extends HTMLElement {
   drawPreview() {
     if (!this.el || !this.el.preview) return;
     const slide = this.deck && this.deck.slides[this.selected];
-    const now = Date.now();
-    if (!this.backdrop || now - (this.backdropAt || 0) > 5000) {
-      try {
-        this.backdrop = this.client.snapshotUrl ? this.client.snapshotUrl("program", 640) : null;
-        this.backdropAt = now;
-      } catch { this.backdrop = null; }
-    }
     drawPreview(this.el.preview, slide ? slide.layers : [], this.canvas, this.backdrop);
+    this.fetchBackdrop();
+  }
+
+  // What is on the programme now, behind the preview: program.thumbnail, at
+  // most once every 5 seconds and only while the preview is being drawn.
+  async fetchBackdrop() {
+    const now = Date.now();
+    if (this.backdropBusy || now - (this.backdropAt || 0) < 5000) return;
+    this.backdropBusy = true;
+    this.backdropAt = now;
+    try {
+      const t = await this.client.call("program.thumbnail", { width: 320 });
+      if (t && t.jpeg) {
+        this.backdrop = `data:image/jpeg;base64,${t.jpeg}`;
+        const slide = this.deck && this.deck.slides[this.selected];
+        drawPreview(this.el.preview, slide ? slide.layers : [], this.canvas, this.backdrop);
+      }
+    } catch { /* a preview with no picture behind it is still a preview */ }
+    this.backdropBusy = false;
   }
 }
 
