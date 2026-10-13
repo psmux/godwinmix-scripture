@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "Words to find. Every word must be in the verse."
+    },
+    "translation": {
+      "type": "string",
+      "description": "A translation id from translations, such as kjv or web. Left out, the default one."
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 200,
+      "description": "Most results to return."
+    }
+  },
+  "required": [
+    "query"
+  ],
+  "additionalProperties": false
+}

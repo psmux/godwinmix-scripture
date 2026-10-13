@@ -1,0 +1,7 @@
+{
+  "id": "scripture/panel",
+  "title": "Bible and lyrics",
+  "slots": ["sidebar", "main"],
+  "tier": "trusted",
+  "height": 520
+}

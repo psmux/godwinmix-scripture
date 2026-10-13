@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "Words from the title, the lyrics, the author or a CCLI number."
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

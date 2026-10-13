@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "deck": {
+      "type": "string",
+      "description": "A deck id from lookup or song_deck."
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Which slide, from 0."
+    }
+  },
+  "required": [
+    "deck"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stage display</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; color: #fff;
+    font-family: "Segoe UI", "Noto Sans", "DejaVu Sans", sans-serif; }
+  body { display: grid; grid-template-rows: auto 1fr auto; }
+  header { display: flex; justify-content: space-between; align-items: baseline;
+    padding: 1.2vh 2.5vw; font-size: 3.2vh; color: #9aa4b2; border-bottom: 1px solid #222; }
+  #clock { font-variant-numeric: tabular-nums; color: #fff; font-size: 4.4vh; }
+  #label { color: #f2c14e; font-weight: 700; }
+  main { display: flex; flex-direction: column; justify-content: center; padding: 2vh 4vw; overflow: hidden; }
+  #current { font-size: 7.5vh; line-height: 1.22; white-space: pre-line; font-weight: 600; }
+  #ref { margin-top: 2vh; font-size: 3.6vh; color: #f2c14e; }
+  #state { font-size: 3vh; color: #ff6b6b; font-weight: 700; letter-spacing: .1em; }
+  footer { border-top: 2px solid #333; padding: 1.6vh 4vw 2.4vh; background: #0d0d0d; }
+  footer .tag { font-size: 2.6vh; color: #9aa4b2; text-transform: uppercase; letter-spacing: .12em; }
+  #next { font-size: 4.2vh; line-height: 1.25; color: #c9d1d9; white-space: pre-line; max-height: 26vh; overflow: hidden; }
+  .off #current { color: #555; }
+</style>
+</head>
+<body>
+<header><span><span id="label"></span> <span id="title"></span></span><span id="state"></span><span id="clock"></span></header>
+<main><div id="current">Waiting for the operator</div><div id="ref"></div></main>
+<footer><div class="tag">Next</div><div id="next"></div></footer>
+<script>
+const $ = (id) => document.getElementById(id);
+function tick() {
+  const d = new Date();
+  $("clock").textContent = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+setInterval(tick, 1000); tick();
+function show(s) {
+  document.body.classList.toggle("off", !s.on_air || s.blank);
+  $("state").textContent = !s.on_air ? "OFF AIR" : s.blank ? "BLANK" : "";
+  $("title").textContent = s.title ? (s.count ? `${s.title}  ${s.index + 1}/${s.count}` : s.title) : "";
+  $("label").textContent = s.current ? s.current.label : "";
+  $("current").textContent = s.current ? s.current.text : "Waiting for the operator";
+  $("ref").textContent = s.current ? s.current.ref : "";
+  $("next").textContent = s.next ? s.next.text : "(end)";
+}
+async function follow() {
+  let since = -1;
+  for (;;) {
+    try {
+      const r = await fetch(`state?since=${since}`, { cache: "no-store" });
+      const s = await r.json();
+      since = s.version;
+      show(s);
+    } catch (e) {
+      $("state").textContent = "RECONNECTING";
+      await new Promise((ok) => setTimeout(ok, 2000));
+    }
+  }
+}
+follow();
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bible verses and lyrics",
+  "type": "object",
+  "x-gmx-notice": {
+    "text": "Show song words under your church's own CCLI licence and report what you use. The plugin shows the licence number you give here but does not report anything.",
+    "link": "https://uk.ccli.com/copyright-licence/",
+    "label": "About CCLI licences"
+  },
+  "properties": {
+    "default_translation": {
+      "type": "string",
+      "title": "Default translation",
+      "description": "The translation a lookup uses when none is named: kjv, web, or the id of one you imported.",
+      "default": "kjv",
+      "examples": ["kjv", "web"]
+    },
+    "verse_numbers": {
+      "type": "boolean",
+      "title": "Verse numbers",
+      "description": "Show small verse numbers when a slide holds more than one verse.",
+      "default": true,
+      "examples": [true, false]
+    },
+    "ccli_licence": {
+      "type": "string",
+      "title": "CCLI licence number",
+      "description": "Your church's CCLI licence number, shown in the credit line with song words. Empty for none.",
+      "default": "",
+      "examples": ["", "1234567"]
+    },
+    "ccli_footer": {
+      "type": "string",
+      "title": "Song credit line",
+      "description": "Where the song credit (title, author, copyright, CCLI numbers) shows: on the first and last slide, on every slide, or nowhere.",
+      "enum": ["first", "every", "none"],
+      "default": "first",
+      "examples": ["first", "every", "none"]
+    },
+    "bible_style": {
+      "type": "string",
+      "title": "Bible style",
+      "description": "The style verses start in. The panel changes it while the plugin runs.",
+      "enum": ["lower-third", "full-screen", "centred-verse", "lyrics-lower"],
+      "default": "lower-third",
+      "examples": ["lower-third", "full-screen"]
+    },
+    "song_style": {
+      "type": "string",
+      "title": "Song style",
+      "description": "The style songs start in.",
+      "enum": ["lyrics-lower", "lyrics-full", "lower-third", "full-screen"],
+      "default": "lyrics-lower",
+      "examples": ["lyrics-lower", "lyrics-full"]
+    },
+    "api_bible_key": {
+      "type": "string",
+      "format": "secret",
+      "title": "API.Bible key",
+      "description": "Your own key from scripture.api.bible, to read a translation you may show but cannot download. Empty for none.",
+      "default": "",
+      "examples": [""]
+    },
+    "stage_bind": {
+      "type": "string",
+      "title": "Stage display address",
+      "description": "The address the stage display listens on once it is started. 0.0.0.0 lets a tablet on the same network open it; 127.0.0.1 keeps it on this machine.",
+      "default": "0.0.0.0",
+      "examples": ["0.0.0.0", "127.0.0.1"]
+    },
+    "stage_port": {
+      "type": "integer",
+      "title": "Stage display port",
+      "description": "The port the stage display listens on once it is started.",
+      "minimum": 1024,
+      "maximum": 65535,
+      "default": 8091,
+      "examples": [8091]
+    },
+    "data_dir": {
+      "type": "string",
+      "title": "Data folder",
+      "description": "Where the song library and imported translations are kept. Empty means a data folder beside the installed plugin, which survives updates.",
+      "default": "",
+      "examples": [""]
+    }
+  }
+}

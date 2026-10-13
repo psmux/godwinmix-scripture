@@ -1,0 +1,202 @@
+[plugin]
+name = "scripture"
+version = "1.0.0"
+api = 1
+description = "Bible verses and song lyrics on the programme for churches: type John 3:16 or search words in the bundled King James and World English Bibles or a translation you are licensed to show, keep a song library with verse, chorus and bridge order, step through slides with the keyboard, and show them in lower third, full screen or centred styles with a stage display for the band"
+license = "MIT"
+authors = ["psmux"]
+repository = "https://github.com/psmux/godwinmix-scripture"
+platforms = ["linux-x86_64", "linux-aarch64", "macos-aarch64", "macos-x86_64", "windows-x86_64"]
+placements = ["sidecar"]
+process = "singleton"
+
+[run]
+python = "main.py"
+
+[[provides]]
+kind = "service"
+id = "service"
+settings = "schemas/service.json"
+skill = "skills/scripture/SKILL.md"
+capabilities = ["health"]
+
+[[provides]]
+kind = "panel"
+id = "panel"
+panel = { kind = "custom-element", entry = "ui/panel.js", slots = ["sidebar", "main"] }
+
+[[tools]]
+name = "translations"
+description = "List the Bible translations installed, with where each came from and its licence. Use before a lookup in a translation other than the default. Example: translations {} answers kjv and web."
+input = "schemas/tools/translations.json"
+annotations = { readOnlyHint = true, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "find"
+description = "Look up a reference or search the words of the Bible, whichever the query is. Use when the operator types into one box. Example: find {query: \"jn 3 16\"} answers a deck of slides for John 3:16; find {query: \"love one another\"} answers the verses that say it."
+input = "schemas/tools/find.json"
+annotations = { readOnlyHint = true, destructiveHint = false, idempotentHint = false, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "lookup"
+description = "Read a passage and cut it into slides in the current Bible style. Use to prepare verses before showing them. Example: lookup {reference: \"Ps 23\", translation: \"web\"} answers a deck with the six verses of Psalm 23 on slides."
+input = "schemas/tools/lookup.json"
+annotations = { readOnlyHint = true, destructiveHint = false, idempotentHint = false, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "search"
+description = "Find verses holding every one of some words, phrase matches first. Use when the operator remembers words but not the reference. Example: search {query: \"lamp unto my feet\"} answers Psalm 119:105."
+input = "schemas/tools/search.json"
+annotations = { readOnlyHint = true, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "bible_import"
+description = "Import a translation the church has the right to show, from USFM (or a zip of USFM books), OSIS XML, Zefania XML or a book,chapter,verse,text table. Use when the operator brings their own licensed text. Example: bible_import {path: \"/home/av/niv.xml\", abbreviation: \"NIV\", licence: \"Licensed to Grace Church, 2026\"}."
+input = "schemas/tools/bible_import.json"
+annotations = { readOnlyHint = false, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "bible_remove"
+description = "Remove a translation the operator imported. The bundled KJV and WEB cannot be removed. Use when a licence has ended. Example: bible_remove {id: \"niv\"}."
+input = "schemas/tools/bible_remove.json"
+annotations = { readOnlyHint = false, destructiveHint = true, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "api_bibles"
+description = "List the Bibles the church's API.Bible key can read, as translation ids starting api:. Use after setting api_bible_key. Example: api_bibles {} answers ids such as api:de4e12af7f28f599-02."
+input = "schemas/tools/api_bibles.json"
+annotations = { readOnlyHint = true, destructiveHint = false, idempotentHint = true, openWorldHint = true }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "songs"
+description = "List or search the song library. Use to find a song's id. Example: songs {query: \"amazing\"} answers Amazing Grace with its id."
+input = "schemas/tools/songs.json"
+annotations = { readOnlyHint = true, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "song_get"
+description = "Read one song: its sections, order and credits, and the plain text form the editor shows. Example: song_get {id: \"amazing-grace\"}."
+input = "schemas/tools/song_get.json"
+annotations = { readOnlyHint = true, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "song_save"
+description = "Add a song to the library, or replace one. Example: song_save {text: \"Title: Doxology\\n[Verse 1]\\nPraise God from whom all blessings flow\"}."
+input = "schemas/tools/song_save.json"
+annotations = { readOnlyHint = false, destructiveHint = false, idempotentHint = false, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "song_delete"
+description = "Delete a song from the library. Example: song_delete {id: \"new-song\"}."
+input = "schemas/tools/song_delete.json"
+annotations = { readOnlyHint = false, destructiveHint = true, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "song_import"
+description = "Import a song from plain text with section headings, OpenLyrics XML or ChordPro (chords are stripped). Example: song_import {name: \"amazing.cho\", content: \"{title: Amazing Grace}\\n[G]Amazing grace\"}."
+input = "schemas/tools/song_import.json"
+annotations = { readOnlyHint = false, destructiveHint = false, idempotentHint = false, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "song_deck"
+description = "Cut a song into slides in the current song style, in its order. Use to prepare a song before showing it. Example: song_deck {id: \"amazing-grace\", order: \"V1 V2 V3 V4\"}."
+input = "schemas/tools/song_deck.json"
+annotations = { readOnlyHint = true, destructiveHint = false, idempotentHint = false, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "styles"
+description = "List the display styles and the one chosen for Bible verses and for songs. Example: styles {} answers lower-third, full-screen, centred-verse, lyrics-lower and lyrics-full."
+input = "schemas/tools/styles.json"
+annotations = { readOnlyHint = true, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "style_set"
+description = "Choose the style for Bible verses or for songs, with optional changes to font, size, colours, box, shadow, alignment and margin. Decks are cut again for the new box. Example: style_set {kind: \"bible\", id: \"full-screen\", overrides: {scale: 1.2}}."
+input = "schemas/tools/style_set.json"
+annotations = { readOnlyHint = false, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "go"
+description = "Make a slide of a prepared deck the live one, and answer the layers to put on the programme. The panel applies them; on its own this changes what the stage display shows. Example: go {deck: \"bible-1\", index: 0}."
+input = "schemas/tools/go.json"
+annotations = { readOnlyHint = false, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "step"
+description = "Move the live slide on or back. Example: step {by: 1}."
+input = "schemas/tools/step.json"
+annotations = { readOnlyHint = false, destructiveHint = false, idempotentHint = false, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "blank"
+description = "Blank the words without losing the place, or show them again. Example: blank {on: true}."
+input = "schemas/tools/blank.json"
+annotations = { readOnlyHint = false, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "clear"
+description = "Take the words off air. Example: clear {}."
+input = "schemas/tools/clear.json"
+annotations = { readOnlyHint = false, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "state"
+description = "What is live: the deck, the slide, the next slide, blank or not, and the styles. Example: state {}."
+input = "schemas/tools/state.json"
+annotations = { readOnlyHint = true, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "stage"
+description = "Start the stage display, a page for the band and the preacher with this slide and the next, and answer its addresses. Example: stage {} answers http://192.168.1.20:8091/."
+input = "schemas/tools/stage.json"
+annotations = { readOnlyHint = false, destructiveHint = false, idempotentHint = true, openWorldHint = false }
+user_invocable = true
+model_invocable = true
+
+[[tools]]
+name = "upload"
+description = "Send one piece of a file too big for one call, for bible_import or song_import. Example: upload {seq: 0, name: \"niv.xml\", data_base64: \"PD94...\"}."
+input = "schemas/tools/upload.json"
+annotations = { readOnlyHint = false, destructiveHint = false, idempotentHint = false, openWorldHint = false }
+user_invocable = true
+model_invocable = false

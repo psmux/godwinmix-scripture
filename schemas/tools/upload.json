@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "upload": {
+      "type": "string",
+      "description": "The id the first piece answered. Left out on the first piece."
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The piece number, from 0."
+    },
+    "name": {
+      "type": "string",
+      "description": "The file name."
+    },
+    "data_base64": {
+      "type": "string",
+      "description": "At most 512 KB of the file, base64."
+    }
+  },
+  "required": [
+    "seq",
+    "data_base64"
+  ],
+  "additionalProperties": false
+}

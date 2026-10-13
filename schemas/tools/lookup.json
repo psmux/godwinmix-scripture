@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "reference": {
+      "type": "string",
+      "description": "John 3:16, 1 Cor 13:4-7, Ps 23, Gen 1:1-2:3 and the like. A translation id may follow."
+    },
+    "translation": {
+      "type": "string",
+      "description": "A translation id from translations, such as kjv or web. Left out, the default one."
+    }
+  },
+  "required": [
+    "reference"
+  ],
+  "additionalProperties": false
+}

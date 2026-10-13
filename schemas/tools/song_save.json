@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "The song as plain text: Title:, Author:, CCLI:, Order: lines, then [Verse 1], [Chorus] and their lines."
+    },
+    "song": {
+      "type": "object",
+      "description": "The song as an object, as song_get answers it."
+    },
+    "id": {
+      "type": "string",
+      "description": "The id of the song to replace. Left out, a new song."
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

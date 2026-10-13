@@ -1,0 +1,30 @@
+{
+  "translations": [
+    {
+      "id": "kjv",
+      "name": "King James Version",
+      "abbreviation": "KJV",
+      "language": "en",
+      "licence": "Public domain outside the United Kingdom. In the UK the text is under Crown letters patent, which govern printing and importing printed copies.",
+      "source": "eBible.org, King James (Authorized) Version, standardized text of 1769, protocanon only, from the Crosswire Bible Society",
+      "url": "https://ebible.org/Scriptures/eng-kjv2006_usfm.zip",
+      "sha256_download": "77bbe9c78f4f588b1465e49ddad986293a09e7f4b140abe7248232c8c5ae2a5b",
+      "file": "kjv.tsv.gz",
+      "verses": 31102,
+      "sha256_tsv": "5035ce4363472e00afa8ad3873b76fb501918ae0ee3a15fe1b67d7755b69fe31"
+    },
+    {
+      "id": "web",
+      "name": "World English Bible",
+      "abbreviation": "WEB",
+      "language": "en",
+      "licence": "Public domain. \"World English Bible\" is a trademark of eBible.org; a changed text must not use that name.",
+      "source": "eBible.org, World English Bible, 66 book protocanon edition (engwebp)",
+      "url": "https://ebible.org/Scriptures/engwebp_usfm.zip",
+      "sha256_download": "6b47e6553ce0bd71902fe4b4ba71a5d7d862928e2ce47936acdda345bc6c5dd0",
+      "file": "web.tsv.gz",
+      "verses": 31098,
+      "sha256_tsv": "cf955fdf75913a052aa6d99e7af2b39369169293f85e058adf9153e0785998ba"
+    }
+  ]
+}

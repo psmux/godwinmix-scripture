@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "abbreviation": {
+      "type": "string",
+      "description": "Short id shown on air, such as NIV."
+    },
+    "title": {
+      "type": "string",
+      "description": "Full name of the translation."
+    },
+    "licence": {
+      "type": "string",
+      "description": "Under what right this church shows it. Kept with the text."
+    },
+    "format": {
+      "type": "string",
+      "description": "usfm, osis, zefania or csv. Left out, worked out from the file.",
+      "enum": [
+        "usfm",
+        "osis",
+        "zefania",
+        "csv"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "The file name."
+    },
+    "path": {
+      "type": "string",
+      "description": "A file on the mixer's own machine."
+    },
+    "upload": {
+      "type": "string",
+      "description": "An upload id from upload."
+    },
+    "content": {
+      "type": "string",
+      "description": "The file itself, for a small text file."
+    },
+    "data_base64": {
+      "type": "string",
+      "description": "The file itself, base64."
+    },
+    "language": {
+      "type": "string",
+      "description": "Language code."
+    }
+  },
+  "required": [
+    "abbreviation",
+    "licence"
+  ],
+  "additionalProperties": false
+}

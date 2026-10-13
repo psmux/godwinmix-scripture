@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "by": {
+      "type": "integer",
+      "description": "1 for the next slide, -1 for the one before."
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

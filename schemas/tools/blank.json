@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "on": {
+      "type": "boolean",
+      "description": "True to blank, false to show again. Left out, it toggles."
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

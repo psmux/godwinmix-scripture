@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The file name, which helps tell the format."
+    },
+    "content": {
+      "type": "string",
+      "description": "The file's text."
+    },
+    "data_base64": {
+      "type": "string",
+      "description": "The file, base64."
+    },
+    "upload": {
+      "type": "string",
+      "description": "An upload id."
+    },
+    "path": {
+      "type": "string",
+      "description": "A file on the mixer's machine."
+    },
+    "format": {
+      "type": "string",
+      "description": "text, openlyrics or chordpro. Left out, worked out.",
+      "enum": [
+        "text",
+        "openlyrics",
+        "chordpro"
+      ]
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

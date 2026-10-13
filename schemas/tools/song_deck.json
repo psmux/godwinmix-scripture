@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "A song id."
+    },
+    "order": {
+      "type": "string",
+      "description": "Section order such as V1 C V2 C B C. Left out, the song's own."
+    }
+  },
+  "required": [
+    "id"
+  ],
+  "additionalProperties": false
+}
