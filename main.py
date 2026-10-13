@@ -31,12 +31,19 @@ from scripture.tools import SLOW, TOOLS, summarise  # noqa: E402
 API = 1
 NAME = "scripture"
 VERSION = "1.0.0"
+# The core speaks UTF-8 both ways. Windows would otherwise read and write the
+# pipes in the local code page, and one curly quote in a hymn would stop a reply.
+for _stream in (sys.stdin, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
 OUT = sys.stderr
 WRITE = threading.Lock()
 
 
 def send(obj):
-    line = json.dumps(obj, separators=(",", ":"), ensure_ascii=False)
+    line = json.dumps(obj, separators=(",", ":"))
     with WRITE:
         OUT.write(line + "\n")
         OUT.flush()
