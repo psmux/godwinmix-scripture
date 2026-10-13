@@ -15,7 +15,9 @@ HEADER = re.compile(r"^(title|author|authors|artist|words|copyright|ccli|ccli nu
 
 
 def _blank_song(name=""):
-    title = os.path.splitext(os.path.basename(name or ""))[0].replace("_", " ").strip()
+    title = re.sub(r"[_\-]+", " ", os.path.splitext(os.path.basename(name or ""))[0]).strip()
+    if title.islower():
+        title = title.title()
     return {"title": title, "author": "", "copyright": "", "ccli": "", "sections": [], "order": None}
 
 

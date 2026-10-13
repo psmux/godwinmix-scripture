@@ -35,14 +35,14 @@ class SongError(ValueError):
 def section_id(label):
     """"Verse 2" to V2, "Chorus" to C, "pre-chorus" to P, "v1" to V1. None if not a heading."""
     text = label.strip().strip("[]():").strip().lower()
-    match = re.fullmatch(r"([a-z][a-z\- ]*?)\s*(\d*)([a-z]?)", text)
+    match = re.fullmatch(r"([a-z][a-z\- ]*?)\s*(\d+[a-z]?)?", text)
     if not match:
         return None
     word = match.group(1).replace(" ", "")
     kind = KINDS.get(word) or KINDS.get(match.group(1).replace(" ", "-"))
     if kind is None:
         return None
-    return kind[0] + match.group(2) + match.group(3)
+    return kind[0] + (match.group(2) or "")
 
 
 def section_label(sid):

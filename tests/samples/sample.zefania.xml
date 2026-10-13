@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XMLBIBLE biblename="Sample Zefania Bible" type="x-bible">
+  <INFORMATION><title>Sample Zefania Bible</title></INFORMATION>
+  <BIBLEBOOK bnumber="1" bname="Genesis">
+    <CHAPTER cnumber="1">
+      <VERS vnumber="1">In the beginning God created the heaven and the earth.</VERS>
+      <VERS vnumber="2">And the earth was without form, and void;<NOTE>A note that must not show.</NOTE> and darkness was upon the face of the deep.</VERS>
+    </CHAPTER>
+  </BIBLEBOOK>
+  <BIBLEBOOK bnumber="62" bname="1 John">
+    <CHAPTER cnumber="4">
+      <VERS vnumber="8">He that loveth not knoweth not God; for <STYLE css="font-weight:bold">God is love</STYLE>.</VERS>
+    </CHAPTER>
+  </BIBLEBOOK>
+</XMLBIBLE>

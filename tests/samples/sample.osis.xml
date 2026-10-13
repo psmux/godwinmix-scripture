@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osis xmlns="http://www.bibletechnologies.net/2003/OSIS/namespace">
+  <osisText osisIDWork="KJVsample" osisRefWork="Bible" xml:lang="en">
+    <header><work osisWork="KJVsample"><title>Sample King James Version</title></work></header>
+    <div type="book" osisID="Ps">
+      <chapter osisID="Ps.23">
+        <title type="psalm">A Psalm of David.</title>
+        <verse osisID="Ps.23.1">The <divineName>LORD</divineName> is my shepherd; I shall not want.</verse>
+        <verse osisID="Ps.23.2">He maketh me to lie down in green pastures: he leadeth me beside the still waters.<note type="study">A note that must not show.</note></verse>
+      </chapter>
+    </div>
+    <div type="book" osisID="John">
+      <chapter sID="John.11" osisID="John.11"/>
+        <p><verse sID="John.11.35" osisID="John.11.35"/>Jesus wept.<verse eID="John.11.35"/></p>
+        <verse sID="John.11.36" osisID="John.11.36"/>Then said the Jews, Behold how he loved him!<verse eID="John.11.36"/>
+      <chapter eID="John.11"/>
+    </div>
+  </osisText>
+</osis>
